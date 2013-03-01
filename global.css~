@@ -12,7 +12,7 @@ html *
   }
 
 h1            { text-align: center; font-size: x-large; }
-th, td        { vertical-align: top; text-align: right; }   
+th, td        { vertical-align: top; text-align: left; }   
 /* #finaltable  * { color: white; background-color: black; }   */
 
 /* #finaltable table { border-collapse:collapse; } */
@@ -30,7 +30,13 @@ table.center { margin-left:auto; margin-right:auto; }
 tr.error       { background-color: red; }
 pre.output   { background-color: white; }
 span.repeated { background-color: red }
+span.header { ________________: ____ }
+span.comments { ________________: ______ }
+span.blanks { ________________: _____ }
+span.nameEqualValue { ________________: ____ }
+span.error { ________________: ___ }
 
 body
 {
  background-color:#b0c4de;  /* blue */
+}

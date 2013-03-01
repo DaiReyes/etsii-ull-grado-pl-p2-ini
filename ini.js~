@@ -1,46 +1,78 @@
-[~/srcPLgrado/repeatedwords(master)]$ cat repeated_words.js 
 "use strict"; // Use ECMAScript 5 strict mode in browsers that support it
 
 $(document).ready(function() {
    $("#fileinput").change(calculate);
 });
 
-function generateOutput(contents) {
-  return contents.replace(/____________________/__,'__________________________________');
-}
-
 function calculate(evt) {
   var f = evt.target.files[0]; 
-  var contents = '';
 
   if (f) {
     var r = new FileReader();
     r.onload = function(e) { 
-      contents = e.target.result;
-      var escaped  = escapeHtml(contents);
-      var outdiv = document.getElementById("out");
-      outdiv.className = 'unhidden';
-      finaloutput.innerHTML = generateOutput(escaped);
-      initialinput.innerHTML = escaped;
-
+      var contents = e.target.result;
+      
+      var tokens = lexer(contents);
+      var pretty = tokensToString(tokens);
+      
+      out.className = 'unhidden';
+      initialinput.innerhtml = contents;
+      finaloutput.innerhtml = pretty;
     }
-    r.readAsText(f);
+    r.ReadAsText(f); // Leer como texto
   } else { 
     alert("Failed to load file");
   }
 }
 
-var entityMap = {
-    "&": "&amp;",
-    "<": "&lt;",
-    ">": "&gt;",
-    '"': '&quot;',
-    "'": '&#39;',
-    "/": '&#x2F;'
-  };
+var temp = '<li> <span class = "<%= ______ %>"> <%= _ %> </span>\n';
 
-function escapeHtml(string) {
-  return String(string).replace(/_________/g, function (s) {
-    return entityMap(s);
-  });
+function tokensToString(tokens) {
+   var r = '';
+   for(var i in tokens) {
+     var t = tokens[i];
+     var s = JSON.stringify(t, undefined, 2);
+     s = _.template(temp, {t: t, s: s});
+     r += s;
+   }
+   return '<ol>\n'+r+'</ol>';
+}
+
+function lexer(input) {
+  var blanks         = /^___/;
+  var iniheader      = /^________________/;
+  var comments       = /^________/;
+  var nameEqualValue = /^________________________/;
+  var any            = /^_______/;
+
+  var out = [];
+  var m = null;
+
+  while (input != '') {
+    if (m = blanks.____(input)) {
+      input = input.substr(m.index+___________);
+      out.push({ type : ________, match: _ });
+    }
+    else if (m = iniheader.exec(input)) {
+      input = input.substr(___________________);
+      _______________________________________ // avanzemos en input
+    }
+    else if (m = comments.exec(input)) {
+      input = input.substr(___________________);
+      _________________________________________
+    }
+    else if (m = nameEqualValue.exec(input)) {
+      input = input.substr(___________________);
+      _______________________________________________
+    }
+    else if (m = any.exec(input)) {
+      _______________________________________
+      input = '';
+    }
+    else {
+      alert("Fatal Error!"+substr(input,0,20));
+      input = '';
+    }
+  }
+  return out;
 }
